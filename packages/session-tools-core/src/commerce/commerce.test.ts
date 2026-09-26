@@ -148,6 +148,8 @@ describe('execution journal, recovery and cost attribution', () => {
     const restarted = startCommerceRun({ workspacePath, sessionId: ctx.sessionId, model: 'model-b' })!;
     expect(restarted.recovery?.status).toBe('incomplete');
     expect(restarted.recovery?.pendingToolIds).toEqual(['tool-1']);
+    const summary = summarizeAgentAudit(readAgentAudit(workspacePath, ctx.sessionId).records);
+    expect(summary.unfinishedRuns.find(r => r.runId === run.audit.runId)?.pendingToolIds).toEqual(['tool-1']);
     const raw = readFileSync(join(workspacePath, 'sessions', ctx.sessionId, 'commerce-events.jsonl'), 'utf8');
     expect(raw).not.toContain('DO_NOT_LOG'); expect(raw).not.toContain('SECRET_COMMAND');
     expect(raw).toContain('正在查询');

@@ -81,6 +81,10 @@ export function summarizeAgentAudit(records: AuditRecord[]) {
   return {
     runCount: runs.size, toolCalls, toolFailures, permissionRequests, errors,
     lastRun: last ? { runId: last[0], status: last[1].status, pendingToolIds: [...last[1].pendingTools] } : null,
+    // Keep earlier unfinished runs visible even after a recovery turn has started.
+    unfinishedRuns: [...runs.entries()]
+      .filter(([, run]) => run.status !== 'completed' || run.pendingTools.size > 0)
+      .map(([runId, run]) => ({ runId, status: run.status, pendingToolIds: [...run.pendingTools] })),
     costs: Object.values(byModel),
     costNote: 'Only provider-reported model cost in USD; missing prices are unknown. Tool counts are not monetary cost. Refund amounts are CNY cents.',
   };
