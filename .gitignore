@@ -72,3 +72,9 @@ credentials.enc
 # act (local GitHub Actions runner)
 .secrets
 .actrc
+
+# MerchantDesk local runtime data and generated QA outputs
+.merchantdesk/
+output/
+tmp/
+*.log

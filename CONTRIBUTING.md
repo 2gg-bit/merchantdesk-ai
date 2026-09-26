@@ -1,21 +1,21 @@
-# Contributing to Craft Agents
+# Contributing to MerchantDesk
 
-Thank you for your interest in contributing to Craft Agents! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to MerchantDesk! This document provides guidelines and instructions for contributing.
 
 ## Getting Started
 
 ### Prerequisites
 
 - [Bun](https://bun.sh/) runtime
-- Node.js 18+ (for some tooling)
+- Node.js 22+ (for some tooling)
 - macOS, Linux, or Windows
 
 ### Development Setup
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/lukilabs/craft-agents-oss.git
-   cd craft-agents-oss
+   git clone https://github.com/2gg-bit/merchantdesk-ai.git
+   cd merchantdesk-ai
    ```
 
 2. Install dependencies:
@@ -48,7 +48,7 @@ Use descriptive branch names:
 
 1. Create a feature branch from `main`
 2. Make your changes
-3. Run type checking: `bun run typecheck:all`
+3. Run `bun run validate:commerce` and `bun run typecheck:all`
 4. Commit your changes with clear, descriptive messages
 5. Push to your fork and create a pull request
 

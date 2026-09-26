@@ -8,6 +8,9 @@
  */
 
 // Types
+export * from './commerce/index.ts';
+
+// Types
 export type {
   // Credential types
   CredentialInputMode,

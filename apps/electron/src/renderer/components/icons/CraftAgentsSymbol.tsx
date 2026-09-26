@@ -1,24 +1,7 @@
-interface CraftAgentsSymbolProps {
-  className?: string
-}
-
-/**
- * Craft Agents "E" symbol - the small pixel art icon
- * Uses accent color from theme (currentColor from className)
- */
-export function CraftAgentsSymbol({ className }: CraftAgentsSymbolProps) {
-  return (
-    <svg
-      viewBox="452 368 115 129"
-      className={className}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M474.78218,393.8 L474.78218,368 L566.666667,368 L566.666667,393.8 L474.78218,393.8 Z M521.101,419.6 L521.102306,445.4 L452,445.4 L452,393.8 L566.666667,393.8 L566.666667,419.6 L521.101,419.6 Z M474.78218,497 L474.775667,471.2 L452,471.2 L452,445.4 L566.666667,445.4 L566.666667,497 L474.78218,497 Z"
-        fill="currentColor"
-        fillRule="nonzero"
-      />
-    </svg>
-  )
+/** MerchantDesk sail symbol; export retained to keep upstream imports stable. */
+export function CraftAgentsSymbol({ className }: { className?: string }) {
+  return <svg viewBox="0 0 128 128" className={className} fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="MerchantDesk">
+    <path d="M26 82h76l-13 19H41zM60 25v49H31zM70 38v36h25z" />
+    <path d="M64 22v60" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+  </svg>
 }

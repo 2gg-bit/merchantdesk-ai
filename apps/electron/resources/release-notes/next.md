@@ -4,6 +4,8 @@ This file accumulates release notes for the next unreleased version. PRs that ad
 
 ## Features
 
+- **MerchantDesk ecommerce workbench** — Session-scoped demo catalog, store policies, order lookup, idempotent refunds, versioned stock changes, execution journals and model-cost attribution. Based on Craft Agents 0.11.4.
+
 ## Improvements
 
 ## Bug Fixes

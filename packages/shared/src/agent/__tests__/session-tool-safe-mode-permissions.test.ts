@@ -11,6 +11,10 @@ describe('session tool safe-mode classification', () => {
   // send-developer-feedback-permissions.test.ts owns that flag-aware behavior.
   it('allows read-only session tools in safe mode', () => {
     const allowedTools = [
+      'mcp__session__commerce_search_products',
+      'mcp__session__commerce_get_policy',
+      'mcp__session__commerce_get_order',
+      'mcp__session__commerce_audit',
       'mcp__session__call_llm',
       'mcp__session__browser_tool',
       'mcp__session__script_sandbox',
@@ -24,6 +28,8 @@ describe('session tool safe-mode classification', () => {
 
   it('blocks mutating/auth session tools in safe mode', () => {
     const blockedTools = [
+      'mcp__session__commerce_refund_order',
+      'mcp__session__commerce_adjust_inventory',
       'mcp__session__source_oauth_trigger',
       'mcp__session__source_credential_prompt',
       'mcp__session__spawn_session',

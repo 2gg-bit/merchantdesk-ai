@@ -49,21 +49,12 @@ interface ParsedHint {
  * - {skill} - Custom skill
  */
 const HINT_TEMPLATE_KEYS = [
-  'hints.summarizeGmail',
-  'hints.screenshotToWebsite',
-  'hints.pullIssuesLinear',
-  'hints.transcribeVoiceMemo',
-  'hints.analyzeSpreadsheet',
-  'hints.reviewGitHubPRs',
-  'hints.parseInvoicePDF',
-  'hints.researchExa',
-  'hints.refactorCode',
-  'hints.syncCalendar',
-  'hints.meetingNotesToTickets',
-  'hints.queryDatabase',
-  'hints.fetchFigmaDesigns',
-  'hints.combineSlackThreads',
-  'hints.runSkillAnalyze',
+  'hints.productCopy',
+  'hints.customerService',
+  'hints.recommendProducts',
+  'hints.orderLookup',
+  'hints.refundReview',
+  'hints.sessionAudit',
 ]
 
 // ============================================================================

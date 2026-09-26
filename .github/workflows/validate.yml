@@ -41,5 +41,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run validation suite
-        run: bun run validate:ci
+      - name: Validate MerchantDesk business rules and upstream integration contracts
+        run: bun run validate:commerce
+
+      - name: Typecheck all packages
+        run: bun run typecheck:all
+
+      - name: Check translations
+        run: bun run lint:i18n:parity && bun run lint:i18n:sorted
+
+      - name: Build operations Web UI
+        run: bun run webui:build

@@ -1,58 +1,23 @@
-# Security Policy
+# MerchantDesk security boundaries
 
-## Reporting a Vulnerability
+MerchantDesk is a local/authorized-team demo workbench built on Craft Agents. It is not a hardened multi-tenant commerce service.
 
-We take security seriously. If you discover a security vulnerability in Craft Agents, please report it responsibly.
+## Commerce tools
 
-### How to Report
+- Runtime `SessionToolContext` determines workspace and session identity; model inputs cannot override them.
+- Administrator-managed grants specify roles, order IDs, expiry and the cumulative refund budget. Grants are not created through an agent tool.
+- Refunds validate integer CNY cents, remaining paid amount, role and budget. Idempotency is scoped to workspace/session/request ID. Inventory uses expected versions and rejects invalid stock.
+- Writes use a cross-process lock and a durable JSONL append. Invalid interior ledger records fail closed. Stale locks require administrator inspection.
+- The demo never contacts a payment processor. Production integrations must enforce equivalent authorization and idempotency at the remote business service.
 
-**Please do NOT report security vulnerabilities through public GitHub issues.**
+## Trust model
 
-Instead, please send an email to: **security@craft.do**
+Local administrators, filesystem access, shell tools and the shared server token can bypass local grant files. Session grants protect the commerce API boundary, not the operating system. Do not expose this server to mutually untrusted customers or merchants. Use a separate authenticated business service, per-tenant credentials, OS isolation and database transactions for production.
 
-Include the following information:
-- Description of the vulnerability
-- Steps to reproduce the issue
-- Potential impact
-- Any suggested fixes (optional)
+Explore mode blocks commerce mutations. Ask/Auto preserve upstream permission semantics; changing mode does not expand commerce grants. Prompt guidance is not an authorization control.
 
-### What to Expect
+Execution audit copies omit raw tool arguments, raw results and permission commands. Conversation transcripts and text events may still contain customer data. Apply retention/access policies and never commit runtime workspaces, credentials, logs or real customer records. Do not edit seed data after transactions have started; it is the immutable basis of ledger replay.
 
-- **Acknowledgment**: We will acknowledge receipt within 48 hours
-- **Initial Assessment**: We will provide an initial assessment within 7 days
-- **Resolution Timeline**: We aim to resolve critical issues within 30 days
+## Reporting
 
-### Scope
-
-This policy applies to:
-- The Craft Agents desktop application
-- The `@craft-agent/*` npm packages
-- Official Craft Agents repositories
-
-### Out of Scope
-
-- Third-party dependencies (report to their maintainers)
-- Social engineering attacks
-- Denial of service attacks
-
-## Supported Versions
-
-| Version | Supported          |
-| ------- | ------------------ |
-| Latest  | :white_check_mark: |
-| < Latest | :x:               |
-
-We only provide security updates for the latest version. Please keep your installation up to date.
-
-## Security Best Practices
-
-When using Craft Agents:
-
-1. **Keep credentials secure**: Never commit `.env` files or credentials
-2. **Use environment variables**: Store secrets in environment variables
-3. **Review permissions**: Be cautious with "Execute" permission mode
-4. **Update regularly**: Keep the application updated
-
-## Acknowledgments
-
-We appreciate responsible disclosure and will acknowledge security researchers who report valid vulnerabilities (with their permission).
+Report MerchantDesk-specific vulnerabilities through this repository's private GitHub security reporting channel when enabled. If private reporting is unavailable, open a minimal issue requesting a private contact, without exploit details, secrets or customer data. This fork does not promise a fixed response SLA and does not route reports to Craft's support addresses. Report upstream-only issues to the relevant upstream maintainers.

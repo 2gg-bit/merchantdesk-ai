@@ -1,0 +1,18 @@
+{
+  "mode": "demo",
+  "currency": "CNY",
+  "products": [
+    { "id": "SKU-TEA-01", "name": "便携保温杯", "category": "户外 通勤", "description": "适合通勤和短途出行的 450ml 保温杯。", "features": ["450ml 容量", "304 不锈钢内胆", "旋盖设计"], "priceCents": 8900, "stock": 120 },
+    { "id": "SKU-BAG-02", "name": "轻量通勤双肩包", "category": "箱包 通勤", "description": "设有独立电脑隔层的轻量双肩包。", "features": ["20L 容量", "可容纳 14 英寸电脑", "侧面水杯袋"], "priceCents": 15900, "stock": 45 },
+    { "id": "SKU-LAMP-03", "name": "桌面阅读灯", "category": "家居 学习", "description": "支持三档亮度的 USB 供电桌灯。", "features": ["三档亮度", "USB 供电", "可调灯臂"], "priceCents": 12900, "stock": 0 }
+  ],
+  "orders": [
+    { "id": "DEMO-1001", "productId": "SKU-TEA-01", "quantity": 1, "paidCents": 8900, "status": "delivered" },
+    { "id": "DEMO-1002", "productId": "SKU-BAG-02", "quantity": 1, "paidCents": 15900, "status": "shipped" }
+  ],
+  "policies": [
+    { "id": "shipping", "title": "演示发货政策", "content": "现货通常在付款后 48 小时内安排发货。大促、偏远地区或异常情况需人工核实；不得承诺具体送达时间。" },
+    { "id": "returns", "title": "演示售后政策", "content": "收货后 7 天内、商品完好且符合适用条件时，可申请无理由退货。质量问题由客服核实。退款不得超过实付未退金额；退款不会自动回补库存。" },
+    { "id": "escalation", "title": "转人工与事实核验", "content": "超额退款、交易争议、物流异常、授权范围外订单和缺失事实转人工处理。以上为虚构演示规则，不构成真实店铺承诺。" }
+  ]
+}

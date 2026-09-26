@@ -357,6 +357,9 @@ function checkForExistingDownload(): { exists: boolean; version?: string } {
  * @param options.autoDownload - If false, only checks without downloading (for manual "Check Now")
  */
 export async function checkForUpdates(options: CheckOptions = {}): Promise<UpdateInfo> {
+  // Fork releases are manual until a dedicated signed feed is configured.
+  if (!process.env.MERCHANTDESK_UPDATE_URL) return getUpdateInfo()
+  autoUpdater.setFeedURL({ provider: 'generic', url: process.env.MERCHANTDESK_UPDATE_URL })
   const { autoDownload = true } = options
 
   // Temporarily override autoDownload for this check if needed

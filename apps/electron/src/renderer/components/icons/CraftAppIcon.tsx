@@ -12,7 +12,7 @@ export function CraftAppIcon({ className, size = 64 }: CraftAppIconProps) {
   return (
     <img
       src={craftLogo}
-      alt="Craft"
+      alt="MerchantDesk"
       width={size}
       height={size}
       className={className}

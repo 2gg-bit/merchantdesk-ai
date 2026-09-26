@@ -1,18 +1,5 @@
-/**
- * Centralized branding assets for Craft Agent
- * Used by OAuth callback pages
- */
-
-export const CRAFT_LOGO = [
-  '  ████████ █████████    ██████   ██████████ ██████████',
-  '██████████ ██████████ ██████████ █████████  ██████████',
-  '██████     ██████████ ██████████ ████████   ██████████',
-  '██████████ ████████   ██████████ ███████      ██████  ',
-  '  ████████ ████  ████ ████  ████ █████        ██████  ',
-] as const;
-
-/** Logo as a single string for HTML templates */
-export const CRAFT_LOGO_HTML = CRAFT_LOGO.map((line) => line.trimEnd()).join('\n');
-
-/** Session viewer base URL */
-export const VIEWER_URL = 'https://agents.craft.do';
+/** MerchantDesk branding. Export names retained for upstream compatibility. */
+export const CRAFT_LOGO = ['MerchantDesk / 商舟 AI'] as const;
+export const CRAFT_LOGO_HTML = CRAFT_LOGO.join('\n');
+/** Sharing is opt-in: never upload a fork session to the upstream public service. */
+export const VIEWER_URL = process.env.MERCHANTDESK_VIEWER_URL || '';

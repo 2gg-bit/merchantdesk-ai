@@ -3,7 +3,7 @@
  * Summaries provide quick context; "Learn more" opens the full docs.
  */
 
-const DOC_BASE_URL = 'https://agents.craft.do/docs'
+const DOC_BASE_URL = 'https://github.com/2gg-bit/merchantdesk-ai/blob/main/docs/commerce.md'
 
 export type DocFeature =
   | 'sources'
@@ -121,7 +121,7 @@ export const DOCS: Record<DocFeature, DocInfo> = {
  * Get the full documentation URL for a feature
  */
 export function getDocUrl(feature: DocFeature): string {
-  return `${DOC_BASE_URL}${DOCS[feature].path}`
+  return DOC_BASE_URL
 }
 
 /**

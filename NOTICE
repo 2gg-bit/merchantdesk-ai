@@ -13,3 +13,12 @@ Commercial Terms of Service: https://www.anthropic.com/legal/commercial-terms
 
 Third-party dependencies are listed in package.json files and are subject
 to their respective licenses.
+
+---
+
+MerchantDesk (商舟 AI), 2026
+Based on the Craft Agents 0.11.4 source distribution.
+Modifications: ecommerce demo tools, session grants, append-only business and
+execution journals, audit/cost reports, recovery guidance, product branding,
+documentation and build configuration. Original upstream notices are retained.
+MerchantDesk is not affiliated with or endorsed by Craft Docs Ltd.

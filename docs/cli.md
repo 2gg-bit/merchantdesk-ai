@@ -1,6 +1,6 @@
-# craft-cli — CLI Reference
+# MerchantDesk CLI Reference
 
-Terminal client for Craft Agent server. Connects over WebSocket (`ws://` or `wss://`) to a running headless server.
+MerchantDesk terminal client (the upstream `craft-cli` binary name is retained). Connects over WebSocket (`ws://` or `wss://`) to a running headless server.
 
 ## Prerequisites
 
@@ -12,8 +12,8 @@ Terminal client for Craft Agent server. Connects over WebSocket (`ws://` or `wss
 
 ```bash
 # Clone the repository
-git clone https://github.com/anthropics/craft-agents.git
-cd craft-agents
+git clone https://github.com/2gg-bit/merchantdesk-ai.git
+cd merchantdesk-ai
 
 # Install dependencies
 bun install

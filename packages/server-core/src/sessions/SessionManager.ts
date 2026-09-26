@@ -1,3 +1,5 @@
+// MerchantDesk: durable execution audit layered on the existing session lifecycle.
+import { appendAgentAudit, startCommerceRun, type AuditContext } from '@craft-agent/session-tools-core'
 import type { EventSink, RpcServer } from '@craft-agent/server-core/transport'
 import { CLIENT_BROWSER_INVOKE } from '@craft-agent/server-core/transport'
 import type { ISessionManager, IBrowserPaneManager, ExecutePromptAutomationInput } from '@craft-agent/server-core/handlers'
@@ -797,6 +799,7 @@ interface RunningBackgroundTask {
 }
 
 interface ManagedSession {
+  commerceAudit?: AuditContext
   id: string
   workspace: Workspace
   agent: AgentInstance | null  // Lazy-loaded - null until first message
@@ -3993,6 +3996,7 @@ export class SessionManager implements ISessionManager {
         commandHash?: string;
         approvalTtlSeconds?: number;
       }) => {
+        if (managed.commerceAudit) appendAgentAudit(managed.commerceAudit, { type: 'permission_request', requestId: request.requestId, toolName: request.toolName })
         sessionLog.info(`Permission request for session ${managed.id}:`, request.command)
         let brokerMetadata: {
           commandHash?: string
@@ -4883,6 +4887,7 @@ export class SessionManager implements ISessionManager {
       }
 
       const { VIEWER_URL } = await import('@craft-agent/shared/branding')
+      if (!VIEWER_URL) return { success: false, error: 'Session sharing requires your own MERCHANTDESK_VIEWER_URL deployment.' }
       const response = await fetch(`${VIEWER_URL}/s/api`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -4947,6 +4952,7 @@ export class SessionManager implements ISessionManager {
       }
 
       const { VIEWER_URL } = await import('@craft-agent/shared/branding')
+      if (!VIEWER_URL) return { success: false, error: 'Session sharing requires your own MERCHANTDESK_VIEWER_URL deployment.' }
       const response = await fetch(`${VIEWER_URL}/s/api/${managed.sharedId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -4992,6 +4998,7 @@ export class SessionManager implements ISessionManager {
 
     try {
       const { VIEWER_URL } = await import('@craft-agent/shared/branding')
+      if (!VIEWER_URL) return { success: false, error: 'Session sharing requires your own MERCHANTDESK_VIEWER_URL deployment.' }
       const response = await fetch(
         `${VIEWER_URL}/s/api/${managed.sharedId}`,
         { method: 'DELETE' }
@@ -5692,6 +5699,7 @@ export class SessionManager implements ISessionManager {
     if (managed.sharedId) {
       try {
         const { VIEWER_URL } = await import('@craft-agent/shared/branding')
+        if (!VIEWER_URL) throw new Error('No MerchantDesk viewer configured; skipping remote share cleanup.')
         const response = await fetch(
           `${VIEWER_URL}/s/api/${managed.sharedId}`,
           { method: 'DELETE', signal: AbortSignal.timeout(5000) }
@@ -6200,6 +6208,14 @@ export class SessionManager implements ISessionManager {
         }, managed.workspace.id)
       }
 
+      const commerceRun = startCommerceRun({
+        workspacePath: managed.workspace.rootPath, sessionId,
+        model: messageBackendContext.resolvedModel, connection: managed.llmConnection,
+      })
+      managed.commerceAudit = commerceRun?.audit
+      if (commerceRun?.recovery && ['incomplete', 'interrupted', 'failed'].includes(commerceRun.recovery.status)) {
+        effectiveMessage += `\n\n<system-reminder>MerchantDesk recovered a ${commerceRun.recovery.status} run from the execution journal. Check commerce_audit and commerce_get_order before resuming. Never blindly replay a refund or stock change; retry an uncertain operation only with its original requestId and arguments.</system-reminder>`
+      }
       sendSpan.mark('chat.starting')
       const chatIterator = agent.chat(effectiveMessage, modelInputAttachments.attachments)
       sessionLog.info('Got chat iterator, starting iteration...')
@@ -6601,6 +6617,15 @@ export class SessionManager implements ISessionManager {
     const managed = this.sessions.get(sessionId)
     if (!managed) return
 
+    if (managed.commerceAudit) {
+      try {
+        appendAgentAudit(managed.commerceAudit, { type: 'run_finished', status: managed.stopRequested ? 'interrupted' : reason === 'complete' ? 'completed' : reason === 'error' ? 'failed' : 'interrupted' })
+      } catch (error) {
+        sessionLog.error('MerchantDesk audit finalization failed', error)
+        this.sendEvent({ type: 'error', sessionId, error: 'MerchantDesk could not finalize the execution audit. Inspect storage before retrying business operations.' }, managed.workspace.id)
+      }
+      managed.commerceAudit = undefined
+    }
     sessionLog.info(`Processing stopped for session ${sessionId}: ${reason}`)
 
     // 1. Cleanup state
@@ -7602,6 +7627,7 @@ export class SessionManager implements ISessionManager {
   }
 
   private async processEvent(managed: ManagedSession, event: AgentEvent): Promise<void> {
+    if (managed.commerceAudit) appendAgentAudit(managed.commerceAudit, event)
     const sessionId = managed.id
     const workspaceId = managed.workspace.id
 

@@ -52,21 +52,9 @@ export interface SessionViewerProps {
  * CraftAgentLogo - The Craft Agent "C" logo for branding
  */
 function CraftAgentLogo({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g transform="translate(3.4502, 3)" fill="currentColor">
-        <path
-          d="M3.17890888,3.6 L3.17890888,0 L16,0 L16,3.6 L3.17890888,3.6 Z M9.642,7.2 L9.64218223,10.8 L0,10.8 L0,3.6 L16,3.6 L16,7.2 L9.642,7.2 Z M3.17890888,18 L3.178,14.4 L0,14.4 L0,10.8 L16,10.8 L16,18 L3.17890888,18 Z"
-          fillRule="nonzero"
-        />
-      </g>
-    </svg>
-  )
+  return <svg className={className} viewBox="0 0 128 128" fill="currentColor" aria-label="MerchantDesk">
+    <path d="M26 82h76l-13 19H41zM60 25v49H31zM70 38v36h25z" />
+  </svg>
 }
 
 /**
